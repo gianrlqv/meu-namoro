@@ -37,15 +37,39 @@ document.getElementById("playPause").addEventListener("click", function() {
     }
 });
 
+// Adiciona CSS para os corações dinamicamente
+const estilo = document.createElement("style");
+estilo.innerHTML = `
+    .coracao {
+        position: fixed;
+        top: -10px;
+        font-size: 30px;
+        opacity: 0.8;
+        animation: cair 5s linear infinite;
+    }
+
+    @keyframes cair {
+        0% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(100vh);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(estilo);
+
 // Função para criar corações caindo na tela
 function criarCoracao() {
     const coracao = document.createElement("div");
     coracao.classList.add("coracao");
     coracao.innerHTML = "💖";
-    
+
     // Define posição e animação
     coracao.style.left = Math.random() * 100 + "vw";  
-    coracao.style.animationDuration = Math.random() * 2 + 3 + "s"; 
+    coracao.style.animationDuration = Math.random() * 3 + 2 + "s"; 
 
     document.body.appendChild(coracao);
 

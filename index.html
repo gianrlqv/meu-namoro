@@ -6,50 +6,33 @@
     <title>Nosso Namoro</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
-    
+
     <style>
         /* Estilos gerais */
         body {
             font-family: 'Dancing Script', cursive;
             text-align: center;
-            background-color: #121212; 
-            color: #ff80ab; 
+            background-color: #121212;
+            color: #ff80ab;
             margin: 0;
             padding: 20px;
-            overflow-x: hidden;
             transition: background 0.5s, color 0.5s;
         }
         h1, h2 { color: #ff4081; }
-        #contadorAoVivo { font-size: 24px; font-weight: bold; }
-        .mensagem {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            margin: 20px auto;
-            width: 80%;
-            border-radius: 10px;
-            backdrop-filter: blur(5px);
+        
+        /* Modo claro */
+        .claro {
+            background-color: #f5f5f5;
+            color: #121212;
         }
 
-        /* Galeria horizontal */
-        .galeria {
-            display: flex;
-            overflow-x: auto;
-            gap: 10px;
-            padding: 10px;
-            justify-content: center;
-        }
-        .galeria img { 
-            width: 150px;
-            height: auto;
-            border-radius: 10px; 
-            transition: transform 0.3s;
-        }
-        .galeria img:hover {
-            transform: scale(1.1);
+        /* Música */
+        #musica {
+            display: none; /* Esconde o player padrão */
         }
 
-        /* Botão e input */
-        .menu button, #toggleModo {
+        /* Botão interativo */
+        button {
             background-color: #ff4081;
             color: white;
             border: none;
@@ -57,162 +40,36 @@
             font-size: 16px;
             border-radius: 5px;
             cursor: pointer;
+            margin-top: 10px;
             transition: 0.3s;
         }
-        .menu button:hover, #toggleModo:hover {
+        button:hover {
             background-color: #e91e63;
-        }
-        .menu input {
-            padding: 8px;
-            font-size: 14px;
-            border-radius: 5px;
-            border: 1px solid #ff4081;
-            margin-right: 5px;
-        }
-
-        /* Corações clicáveis */
-        .heart {
-            position: fixed;
-            color: red;
-            font-size: 24px;
-            animation: fall linear infinite;
-            top: -50px;
-            cursor: pointer;
-        }
-        .heart:hover {
-            transform: scale(1.5);
-        }
-        @keyframes fall {
-            from { transform: translateY(-100px); opacity: 1; }
-            to { transform: translateY(100vh); opacity: 0; }
-        }
-
-        /* Livro de recordações */
-        .livro {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            width: 80%;
-            margin: 20px auto;
-            border-radius: 10px;
-        }
-        .livro input, .livro button {
-            width: 90%;
-            padding: 10px;
-            margin-top: 10px;
-            border: none;
-            border-radius: 5px;
-        }
-        .livro button {
-            background-color: #ff4081;
-            color: white;
-            cursor: pointer;
         }
     </style>
 </head>
 <body>
     <h1>Nosso Amor 💖</h1>
-    
-    <h2>Estamos juntos há:</h2>
-    <div id="contadorAoVivo"></div>
 
-    <h2>Minha Mensagem Para Você</h2>
-    <div class="mensagem">
-        <p>Desde que nos conhecemos, minha vida ficou mais especial. Cada dia ao seu lado é uma nova aventura cheia de amor e felicidade. Obrigado(a) por tudo! ❤️</p>
-    </div>
+    <h2>Estamos juntos há:</h2>
+    <div id="contadorAoVivo">Carregando...</div>
 
     <h2>Nossos Momentos</h2>
-
-    <!-- Menu interativo para adicionar novas fotos -->
-    <div class="menu">
-        <input type="text" id="fotoInput" placeholder="Cole o link da imagem">
-        <button onclick="adicionarFoto()">Adicionar Foto</button>
+    <div class="galeria">
+        <img src="fotos/foto1.jpg" alt="Nosso momento 1">
+        <img src="fotos/foto2.jpg" alt="Nosso momento 2">
+        <img src="fotos/foto3.jpg" alt="Nosso momento 3">
     </div>
 
-    <!-- Galeria de fotos em linha horizontal -->
-    <div class="galeria" id="galeria">
-        <img src="foto1.jpg" alt="Nosso momento 1">
-        <img src="foto2.jpg" alt="Nosso momento 2">
-        <img src="foto3.jpg" alt="Nosso momento 3">
-    </div>
-
-    <h2>Nosso Livro de Recordações</h2>
-    <div class="livro">
-        <input type="text" id="msgInput" placeholder="Escreva uma mensagem">
-        <button onclick="adicionarMensagem()">Adicionar</button>
-        <div id="mensagens"></div>
-    </div>
-
-    <!-- Música de fundo -->
-    <audio id="musica" autoplay loop>
-        <source src="https://www.mboxdrive.com/a-thousand-years.mp3" type="audio/mp3">
+    <h2>Música Especial</h2>
+    <audio id="musica" loop>
+        <source src="a-thousand-years.mp3" type="audio/mp3">
     </audio>
-    <button onclick="toggleMusica()">🎵 Pausar/Retomar Música</button>
+    <button id="playPause">🎵 Tocar Música</button>
+    
+    <button id="toggleModo">🌙 Alternar Modo</button>
 
-    <!-- Botão modo noturno -->
-    <button id="toggleModo" onclick="alternarModo()">🌙 Alternar Modo</button>
-
-    <script>
-        function atualizarContador() {
-            const dataInicio = new Date("2023-02-01T00:00:00"); // Altere para a data do namoro
-            const agora = new Date();
-            const diferenca = agora - dataInicio;
-
-            const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
-            const horas = Math.floor((diferenca % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
-            const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
-
-            document.getElementById("contadorAoVivo").innerText = 
-                `${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos de amor!`;
-        }
-
-        setInterval(atualizarContador, 1000);
-        atualizarContador();
-
-        function criarCoracoes() {
-            const heart = document.createElement("div");
-            heart.innerHTML = "❤️";
-            heart.classList.add("heart");
-            heart.style.left = Math.random() * window.innerWidth + "px"; 
-            heart.style.animationDuration = (Math.random() * 3 + 2) + "s"; 
-            heart.style.fontSize = (Math.random() * 30 + 10) + "px"; 
-            heart.onclick = () => heart.remove();
-            document.body.appendChild(heart);
-
-            setTimeout(() => { heart.remove(); }, 5000);
-        }
-        setInterval(criarCoracoes, 200);
-
-        function adicionarFoto() {
-            const urlFoto = document.getElementById("fotoInput").value;
-            if (urlFoto) {
-                const novaFoto = document.createElement("img");
-                novaFoto.src = urlFoto;
-                document.getElementById("galeria").appendChild(novaFoto);
-                document.getElementById("fotoInput").value = "";
-            } else {
-                alert("Insira um link válido.");
-            }
-        }
-
-        function adicionarMensagem() {
-            const texto = document.getElementById("msgInput").value;
-            if (texto) {
-                const msg = document.createElement("p");
-                msg.innerText = texto;
-                document.getElementById("mensagens").appendChild(msg);
-                document.getElementById("msgInput").value = "";
-            }
-        }
-
-        function toggleMusica() {
-            const musica = document.getElementById("musica");
-            musica.paused ? musica.play() : musica.pause();
-        }
-
-        function alternarModo() {
-            document.body.classList.toggle("claro");
-        }
-    </script>
+    <!-- Adicionando o JavaScript externo -->
+    <script src="script.js"></script>
 </body>
 </html>

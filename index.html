@@ -13,7 +13,7 @@
             color: #ff80ab; /* Cor do texto */
             padding: 20px;
             margin: 0;
-            overflow: hidden; /* Impede barra de rolagem ao criar corações */
+            overflow-x: hidden;
         }
         h1, h2 { color: #ff4081; }
         #contadorAoVivo { 
@@ -31,12 +31,45 @@
             box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.2);
             font-size: 18px;
         }
+
+        /* Galeria de fotos em linha horizontal */
+        .galeria {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding: 10px;
+            justify-content: center;
+        }
         .galeria img { 
-            width: 200px; 
-            height: auto; 
-            margin: 10px; 
+            width: 150px;
+            height: auto;
             border-radius: 10px; 
             box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Menu interativo */
+        .menu {
+            margin: 20px 0;
+        }
+        .menu button {
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .menu button:hover {
+            background-color: #e91e63;
+        }
+        .menu input {
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ff4081;
+            margin-right: 5px;
         }
 
         /* Corações caindo */
@@ -71,7 +104,15 @@
     </div>
 
     <h2>Nossos Momentos</h2>
-    <div class="galeria">
+
+    <!-- Menu interativo para adicionar novas fotos -->
+    <div class="menu">
+        <input type="text" id="fotoInput" placeholder="Cole o link da imagem">
+        <button onclick="adicionarFoto()">Adicionar Foto</button>
+    </div>
+
+    <!-- Galeria de fotos em linha horizontal -->
+    <div class="galeria" id="galeria">
         <img src="foto1.jpg" alt="Nosso momento 1">
         <img src="foto2.jpg" alt="Nosso momento 2">
         <img src="foto3.jpg" alt="Nosso momento 3">
@@ -115,6 +156,20 @@
         }
 
         setInterval(criarCoracoes, 200);
+
+        // Função para adicionar novas fotos à galeria
+        function adicionarFoto() {
+            const urlFoto = document.getElementById("fotoInput").value;
+            if (urlFoto) {
+                const novaFoto = document.createElement("img");
+                novaFoto.src = urlFoto;
+                novaFoto.alt = "Novo momento";
+                document.getElementById("galeria").appendChild(novaFoto);
+                document.getElementById("fotoInput").value = ""; // Limpa o campo após adicionar
+            } else {
+                alert("Por favor, insira um link válido para a imagem.");
+            }
+        }
     </script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 // Atualiza o contador ao vivo do relacionamento
 function atualizarContador() {
-    const dataInicio = new Date("2023-02-01T00:00:00"); // Altere para a data real
+    const dataInicio = new Date("2022-02-10T00:00:00"); // Altere para a data real
     const agora = new Date();
     const diferenca = agora - dataInicio;
 

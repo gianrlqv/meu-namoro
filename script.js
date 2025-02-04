@@ -1,6 +1,6 @@
 // Atualiza o contador ao vivo do relacionamento
 function atualizarContador() {
-    const dataInicio = new Date("2022-02-10T00:00:00"); // Alterar para a data real do namoro
+    const dataInicio = new Date("2023-02-01T00:00:00"); // Altere para a data real
     const agora = new Date();
     const diferenca = agora - dataInicio;
 
@@ -10,7 +10,7 @@ function atualizarContador() {
     const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
 
     document.getElementById("contadorAoVivo").innerText = 
-        `${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos de amor!`;
+        `Nosso amor já dura ${dias} dias, ${horas} horas e ${minutos} minutos! 💕`;
 }
 setInterval(atualizarContador, 1000);
 atualizarContador();
@@ -36,3 +36,24 @@ document.getElementById("playPause").addEventListener("click", function() {
         this.innerText = "🎵 Tocar Música";
     }
 });
+
+// Função para criar corações caindo na tela
+function criarCoracao() {
+    const coracao = document.createElement("div");
+    coracao.classList.add("coracao");
+    coracao.innerHTML = "💖";
+    
+    // Define posição e animação
+    coracao.style.left = Math.random() * 100 + "vw";  
+    coracao.style.animationDuration = Math.random() * 2 + 3 + "s"; 
+
+    document.body.appendChild(coracao);
+
+    // Remove o coração após a animação
+    setTimeout(() => {
+        coracao.remove();
+    }, 5000);
+}
+
+// Criar corações continuamente
+setInterval(criarCoracao, 500);

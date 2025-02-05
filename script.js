@@ -1,4 +1,4 @@
-// Atualiza o contador ao vivo do relacionamento
+// 📌 Atualiza o contador ao vivo do relacionamento
 function atualizarContador() {
     const dataInicio = new Date("2022-02-10T00:00:00"); // Altere para a data real
     const agora = new Date();
@@ -7,7 +7,6 @@ function atualizarContador() {
     const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
     const horas = Math.floor((diferenca % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
-    const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
 
     document.getElementById("contadorAoVivo").innerText = 
         `Nosso amor já dura ${dias} dias, ${horas} horas e ${minutos} minutos! 💕`;
@@ -15,7 +14,7 @@ function atualizarContador() {
 setInterval(atualizarContador, 1000);
 atualizarContador();
 
-// Alterna entre modo claro e escuro
+// 📌 Alterna entre modo claro e escuro
 document.getElementById("toggleModo").addEventListener("click", function() {
     document.body.classList.toggle("claro");
 
@@ -24,7 +23,7 @@ document.getElementById("toggleModo").addEventListener("click", function() {
     botao.innerText = document.body.classList.contains("claro") ? "🌙 Modo Noturno" : "☀️ Modo Claro";
 });
 
-// Função para tocar ou pausar a música
+// 📌 Função para tocar ou pausar a música
 document.getElementById("playPause").addEventListener("click", function() {
     const musica = document.getElementById("musica");
 
@@ -37,43 +36,36 @@ document.getElementById("playPause").addEventListener("click", function() {
     }
 });
 
-// Adiciona CSS para os corações dinamicamente
-const estilo = document.createElement("style");
-estilo.innerHTML = `
-    .coracao {
-        position: fixed;
-        top: -10px;
-        font-size: 30px;
-        opacity: 0.8;
-        animation: cair 5s linear infinite;
-    }
+// 📌 Frases românticas trocando automaticamente
+const romanticMessages = [
+    "Você é o meu sonho se tornando realidade.",
+    "Cada momento ao seu lado é único e inesquecível.",
+    "O nosso amor é mais forte que qualquer coisa.",
+    "Sempre que eu olho para você, vejo meu futuro.",
+    "Cada beijo seu é como uma nova descoberta.",
+    "Com você, todo dia é especial.",
+    "Você é a razão do meu sorriso.",
+    "Eu te amo mais do que palavras podem expressar."
+];
 
-    @keyframes cair {
-        0% {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        100% {
-            transform: translateY(100vh);
-            opacity: 0;
-        }
-    }
-`;
-document.head.appendChild(estilo);
+function displayRandomMessage() {
+    const randomIndex = Math.floor(Math.random() * romanticMessages.length);
+    document.getElementById("romanticText").innerText = romanticMessages[randomIndex];
+}
+setInterval(displayRandomMessage, 5000);
+displayRandomMessage();
 
-// Função para criar corações caindo na tela
+// 📌 Função para criar corações caindo na tela
 function criarCoracao() {
     const coracao = document.createElement("div");
     coracao.classList.add("coracao");
     coracao.innerHTML = "💖";
 
-    // Define posição e animação
     coracao.style.left = Math.random() * 100 + "vw";  
     coracao.style.animationDuration = Math.random() * 3 + 2 + "s"; 
 
     document.body.appendChild(coracao);
 
-    // Remove o coração após a animação
     setTimeout(() => {
         coracao.remove();
     }, 5000);
@@ -81,3 +73,44 @@ function criarCoracao() {
 
 // Criar corações continuamente
 setInterval(criarCoracao, 500);
+
+// 📌 Upload e exibição de imagens (salvas no navegador)
+const imageInput = document.getElementById('imageInput');
+const gallery = document.getElementById('gallery');
+
+if (imageInput) {
+    imageInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.classList.add("imagem-galeria");
+                gallery.appendChild(img);
+                saveImage(e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
+
+// 📌 Salvar imagem no localStorage
+function saveImage(imageData) {
+    let savedImages = JSON.parse(localStorage.getItem('savedImages')) || [];
+    savedImages.push(imageData);
+    localStorage.setItem('savedImages', JSON.stringify(savedImages));
+}
+
+// 📌 Carregar imagens salvas ao abrir o site
+function loadImages() {
+    let savedImages = JSON.parse(localStorage.getItem('savedImages')) || [];
+    savedImages.forEach(imageData => {
+        const img = document.createElement('img');
+        img.src = imageData;
+        img.classList.add("imagem-galeria");
+        gallery.appendChild(img);
+    });
+}
+
+loadImages();

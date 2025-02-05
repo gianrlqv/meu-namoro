@@ -18,7 +18,6 @@ atualizarContador();
 document.getElementById("toggleModo").addEventListener("click", function() {
     document.body.classList.toggle("claro");
 
-    // Atualiza o texto do botão
     const botao = document.getElementById("toggleModo");
     botao.innerText = document.body.classList.contains("claro") ? "🌙 Modo Noturno" : "☀️ Modo Claro";
 });
@@ -73,44 +72,3 @@ function criarCoracao() {
 
 // Criar corações continuamente
 setInterval(criarCoracao, 500);
-
-// 📌 Upload e exibição de imagens (salvas no navegador)
-const imageInput = document.getElementById('imageInput');
-const gallery = document.getElementById('gallery');
-
-if (imageInput) {
-    imageInput.addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.classList.add("imagem-galeria");
-                gallery.appendChild(img);
-                saveImage(e.target.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-}
-
-// 📌 Salvar imagem no localStorage
-function saveImage(imageData) {
-    let savedImages = JSON.parse(localStorage.getItem('savedImages')) || [];
-    savedImages.push(imageData);
-    localStorage.setItem('savedImages', JSON.stringify(savedImages));
-}
-
-// 📌 Carregar imagens salvas ao abrir o site
-function loadImages() {
-    let savedImages = JSON.parse(localStorage.getItem('savedImages')) || [];
-    savedImages.forEach(imageData => {
-        const img = document.createElement('img');
-        img.src = imageData;
-        img.classList.add("imagem-galeria");
-        gallery.appendChild(img);
-    });
-}
-
-loadImages();
